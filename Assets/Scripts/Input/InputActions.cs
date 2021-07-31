@@ -19,7 +19,7 @@ public class @InputActions : IInputActionCollection, IDisposable
             ""id"": ""96adb2e0-11f1-42c0-a09b-662ccb0055e6"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""Direction"",
                     ""type"": ""PassThrough"",
                     ""id"": ""33f13f24-e554-43d2-be32-edd97d12e5f0"",
                     ""expectedControlType"": ""Vector2"",
@@ -29,13 +29,13 @@ public class @InputActions : IInputActionCollection, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector"",
+                    ""name"": ""WASD"",
                     ""id"": ""9b758242-d153-4738-8170-3c9d31af272e"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Direction"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -46,7 +46,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Move"",
+                    ""action"": ""Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -57,7 +57,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Move"",
+                    ""action"": ""Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -68,7 +68,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Move"",
+                    ""action"": ""Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -79,18 +79,18 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Move"",
+                    ""action"": ""Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""2D Vector"",
+                    ""name"": ""Left Stick"",
                     ""id"": ""5569d329-d2ba-446c-b123-ed9430b996b8"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Direction"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -101,7 +101,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Move"",
+                    ""action"": ""Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -112,7 +112,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Move"",
+                    ""action"": ""Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -123,7 +123,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Move"",
+                    ""action"": ""Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -134,7 +134,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Move"",
+                    ""action"": ""Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -168,7 +168,7 @@ public class @InputActions : IInputActionCollection, IDisposable
 }");
         // Play
         m_Play = asset.FindActionMap("Play", throwIfNotFound: true);
-        m_Play_Move = m_Play.FindAction("Move", throwIfNotFound: true);
+        m_Play_Direction = m_Play.FindAction("Direction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -218,12 +218,12 @@ public class @InputActions : IInputActionCollection, IDisposable
     // Play
     private readonly InputActionMap m_Play;
     private IPlayActions m_PlayActionsCallbackInterface;
-    private readonly InputAction m_Play_Move;
+    private readonly InputAction m_Play_Direction;
     public struct PlayActions
     {
         private @InputActions m_Wrapper;
         public PlayActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Play_Move;
+        public InputAction @Direction => m_Wrapper.m_Play_Direction;
         public InputActionMap Get() { return m_Wrapper.m_Play; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -233,16 +233,16 @@ public class @InputActions : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_PlayActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayActionsCallbackInterface.OnMove;
+                @Direction.started -= m_Wrapper.m_PlayActionsCallbackInterface.OnDirection;
+                @Direction.performed -= m_Wrapper.m_PlayActionsCallbackInterface.OnDirection;
+                @Direction.canceled -= m_Wrapper.m_PlayActionsCallbackInterface.OnDirection;
             }
             m_Wrapper.m_PlayActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
+                @Direction.started += instance.OnDirection;
+                @Direction.performed += instance.OnDirection;
+                @Direction.canceled += instance.OnDirection;
             }
         }
     }
@@ -267,6 +267,6 @@ public class @InputActions : IInputActionCollection, IDisposable
     }
     public interface IPlayActions
     {
-        void OnMove(InputAction.CallbackContext context);
+        void OnDirection(InputAction.CallbackContext context);
     }
 }

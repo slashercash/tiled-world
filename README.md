@@ -4,6 +4,7 @@
 
 | Date       | Task                                                    | Time (h) |
 | ---------- | ------------------------------------------------------- | -------: |
+| 31.07.2021 | Implement grid based movement                           |     2.00 |
 | 31.07.2021 | Implement state pattern                                 |     2.50 |
 | 30.07.2021 | Design 'SampleScene' foundation and 'Player' gameobject |     1.50 |
 | 30.07.2021 | Implement inputsystem for keyboard and gamepad          |     2.50 |
