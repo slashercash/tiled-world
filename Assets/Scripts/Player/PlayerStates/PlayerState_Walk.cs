@@ -8,9 +8,7 @@ public class PlayerState_Walk : PlayerState
         var maxDistance = Time.deltaTime * player.speed;
 
         if (distance <= maxDistance)
-        {
             UpdateTargetPosition(player);
-        }
 
         player.transform.position = Vector3.MoveTowards(player.transform.position, player.TargetPosition, maxDistance);
 

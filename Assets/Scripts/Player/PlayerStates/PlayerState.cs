@@ -6,12 +6,18 @@ public abstract class PlayerState
 
     public bool UpdateTargetPosition(Player player)
     {
-        if (player.DirectionInput != Vector2Int.zero)
+        if (player.DirectionInput == Vector2Int.zero)
+            return false;
+
+        var x = player.DirectionInput.x;
+        var y = 0;
+        var z = x == 0 ? player.DirectionInput.y : 0;
+        var newTargetPosition = player.TargetPosition + new Vector3Int(x, y, z);
+        var colliderOnNewTargetPosition = Physics.Linecast(player.TargetPosition, newTargetPosition);
+
+        if (!colliderOnNewTargetPosition)
         {
-            var x = player.DirectionInput.x;
-            var y = 0;
-            var z = x == 0 ? player.DirectionInput.y : 0;
-            player.TargetPosition += new Vector3Int(x, y, z);
+            player.TargetPosition = newTargetPosition;
             return true;
         }
         return false;
