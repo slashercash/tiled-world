@@ -4,6 +4,8 @@
 
 | Date       | Task                                                    | Time (h) |
 | ---------- | ------------------------------------------------------- | -------: |
+| 03.08.2021 | Enable 'Player' to walk up and down a slope             |     2.00 |
+| 02.08.2021 | Enable 'Player' to walk up and down a slope             |     4.00 |
 | 02.08.2021 | Avoid lagging in walking state                          |     2.00 |
 | 31.07.2021 | Implement grid based movement                           |     2.00 |
 | 31.07.2021 | Implement state pattern                                 |     2.50 |

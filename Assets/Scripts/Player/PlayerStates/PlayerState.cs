@@ -9,17 +9,38 @@ public abstract class PlayerState
         if (player.DirectionInput == Vector2Int.zero)
             return false;
 
-        var x = player.DirectionInput.x;
-        var y = 0;
-        var z = x == 0 ? player.DirectionInput.y : 0;
-        var newTargetPosition = player.TargetPosition + new Vector3Int(x, y, z);
-        var colliderOnNewTargetPosition = Physics.Linecast(player.TargetPosition, newTargetPosition);
+        var newTargetPosition = GetNewTargetPosition(player);
 
-        if (!colliderOnNewTargetPosition)
-        {
-            player.TargetPosition = newTargetPosition;
-            return true;
-        }
-        return false;
+        if (HasCollision(player.TargetPosition, newTargetPosition))
+            return false;
+
+        player.TargetPosition = newTargetPosition;
+        return true;
+    }
+
+    private Vector3 GetNewTargetPosition(Player player)
+    {
+        var newTargetPosition = player.TargetPosition + new Vector3(player.DirectionInput.x, 0, player.DirectionInput.y);
+        var groundDistance = GetGroundDistance(newTargetPosition, player);
+
+        if (groundDistance < player.MaxGroundDistance && groundDistance > player.MinGroundDistance)
+            newTargetPosition.y += player.EvenGroundDistance - groundDistance;
+
+        return newTargetPosition;
+    }
+
+    private float GetGroundDistance(Vector3 newTargetPosition, Player player)
+    {
+        var start = newTargetPosition + new Vector3(0, player.pivotToTop, 0);
+        var end = newTargetPosition + new Vector3(0, -20 - player.pivotToBottom, 0);
+        Debug.DrawLine(start, end);
+        Physics.Linecast(start, end, out RaycastHit groundHit);
+        return Mathf.Round(groundHit.distance * player.PartialVerticalAccuracy) / player.PartialVerticalAccuracy;
+    }
+
+    private bool HasCollision(Vector3 start, Vector3 end)
+    {
+        Debug.DrawLine(start, end);
+        return Physics.Linecast(start, end);
     }
 }
