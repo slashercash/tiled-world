@@ -23,19 +23,19 @@ public abstract class PlayerState
         var newTargetPosition = player.TargetPosition + new Vector3(player.DirectionInput.x, 0, player.DirectionInput.y);
         var groundDistance = GetGroundDistance(newTargetPosition, player);
 
-        if (groundDistance < player.MaxGroundDistance && groundDistance > player.MinGroundDistance)
-            newTargetPosition.y += player.EvenGroundDistance - groundDistance;
+        if (player.maxInclineGradient + player.maxDeclineGradient > groundDistance && 0 < groundDistance)
+            newTargetPosition.y += player.maxInclineGradient - groundDistance;
 
         return newTargetPosition;
     }
 
     private float GetGroundDistance(Vector3 newTargetPosition, Player player)
     {
-        var start = newTargetPosition + new Vector3(0, player.pivotToTop, 0);
+        var start = newTargetPosition + new Vector3(0, player.maxInclineGradient - player.pivotToBottom, 0);
         var end = newTargetPosition + new Vector3(0, -20 - player.pivotToBottom, 0);
         Debug.DrawLine(start, end);
         Physics.Linecast(start, end, out RaycastHit groundHit);
-        return Mathf.Round(groundHit.distance * player.PartialVerticalAccuracy) / player.PartialVerticalAccuracy;
+        return Mathf.Round(groundHit.distance * 1000) / 1000;
     }
 
     private bool HasCollision(Vector3 start, Vector3 end)
